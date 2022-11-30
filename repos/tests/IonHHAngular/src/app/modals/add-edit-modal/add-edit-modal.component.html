@@ -1,0 +1,111 @@
+<div class="mt-4 mb-4">
+  <h2 style="text-align: center">{{ editing ? "Edit" : "Add" }} task</h2>
+</div>
+
+<div class="row">
+  <form
+    name="taskForm"
+    #taskForm="ngForm"
+    autocomplete="off"
+    (ngSubmit)="(taskForm.valid && selectTag.valid && saveOrUpdate())"
+  >
+    <div class="col-12 mb-1 justify-content-center">
+      <mat-form-field class="example-full-width">
+        <mat-label>Title</mat-label>
+        <input
+          matInput
+          name="Title"
+          #title="ngModel"
+          [(ngModel)]="task.Title"
+          appearance="legacy"
+          type="text"
+          required
+        />
+        <mat-error *ngIf="title.errors?.['required']">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-12 mb-1">
+      <mat-form-field class="example-full-width">
+        <mat-label>Description</mat-label>
+        <input
+          matInput
+          name="description"
+          #description="ngModel"
+          [(ngModel)]="task.Description"
+          appearance="legacy"
+          type="text"
+          required
+        />
+        <mat-error *ngIf="description.errors?.['required']">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-12 mb-1">
+      <mat-form-field class="example-full-width">
+        <mat-label>Tag</mat-label>
+        <mat-select
+          [formControl]="selectTag"
+          name="tag"
+          [(ngModel)]="task.Tag"
+          required
+        >
+          <mat-option *ngFor="let tag of tagList" [value]="tag">
+            {{ tag }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 mb-1">
+      <mat-form-field class="example-full-width">
+        <mat-label>Assignee</mat-label>
+        <input
+          matInput
+          name="assignee"
+          #assignee="ngModel"
+          [(ngModel)]="task.Assignee"
+          appearance="legacy"
+          type="text"
+          required
+        />
+        <mat-error *ngIf="assignee.errors?.['required']">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+      <div class="col-12 mb-1">
+        <mat-form-field class="example-full-width">
+          <mat-label>Due Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            name="dueDate"
+            #dueDate="ngModel"
+            [(ngModel)]="task.DueDate"
+            [min]="minDate"
+            required
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="dueDate.errors?.['required']">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        class="btn btn-primary btn-round mt-4 submit-btn"
+        mat-button
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
